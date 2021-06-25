@@ -72,118 +72,114 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.cyan,
-                      ),
-                    ),
-                    // borderRadius: BorderRadius.circular(30),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.cyan,
                   ),
-                  margin: EdgeInsets.only(left: 35, right: 35, top: 40),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
+                ),
+                // borderRadius: BorderRadius.circular(30),
+              ),
+              margin: EdgeInsets.only(left: 35, right: 35, top: 40),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: search,
-                              cursorColor: Colors.black,
-                              cursorWidth: 1.0,
-                              cursorHeight: 20.0,
-                              decoration: InputDecoration(
-                                hintText: 'search cities...',
-                                border: InputBorder.none,
-                              ),
-                            ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: search,
+                          cursorColor: Colors.black,
+                          cursorWidth: 1.0,
+                          cursorHeight: 20.0,
+                          decoration: InputDecoration(
+                            hintText: 'search cities...',
+                            border: InputBorder.none,
                           ),
-                          Icon(Icons.search),
-                        ],
-                      )
+                        ),
+                      ),
+                      Icon(Icons.search),
                     ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 15),
-                  child: OutlinedButton(
-                    child: Text("Search"),
-                    onPressed: getWeather,
-                    style: OutlinedButton.styleFrom(
-                        side: BorderSide(
-                      color: Colors.cyan,
-                    )),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      // color: Color(0xffE6E6E6),
-                      borderRadius: BorderRadius.circular(30)),
-                  margin: EdgeInsets.symmetric(horizontal: 24),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              child: Image.network(
-                                  'https://openweathermap.org/img/wn/$iconSrc@2x.png'),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 20),
-                              child: Text(
-                                '$description',
-                                style: TextStyle(fontSize: 36),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                '$city',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Icon(Icons.thermostat),
-                            Padding(
-                              child: Text("Temprature : $temp \u00B0c"),
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Icon(Icons.air_rounded),
-                            Padding(
-                              child: Text("Wind : $wind km/hr"),
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 15),
+              child: OutlinedButton(
+                child: Text("Search"),
+                onPressed: getWeather,
+                style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                  color: Colors.cyan,
+                )),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  // color: Color(0xffE6E6E6),
+                  borderRadius: BorderRadius.circular(30)),
+              margin: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child: Image.network(
+                              'https://openweathermap.org/img/wn/$iconSrc@2x.png'),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                            '$description',
+                            style: TextStyle(fontSize: 36),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            '$city',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    child: Row(
+                      children: [
+                        Icon(Icons.thermostat),
+                        Padding(
+                          child: Text("Temprature : $temp \u00B0c"),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    child: Row(
+                      children: [
+                        Icon(Icons.air_rounded),
+                        Padding(
+                          child: Text("Wind : $wind km/hr"),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
