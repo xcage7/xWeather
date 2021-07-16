@@ -1,4 +1,4 @@
-package com.example.xweather
+package com.kronos.xweather
 
 import io.flutter.embedding.android.FlutterActivity
 
