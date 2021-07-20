@@ -14,50 +14,95 @@ class _WeatherState extends State<Weather> {
 
   String city = "City";
   String description = "Description";
-  String iconSrc = "04d";
+  String iconSrc = "11d";
   String country = "";
   var temp = 0.0;
   var wind = 0.0;
   var humidity = 0.0;
   var tempMin = 0.0;
   var tempMax = 0.0;
-  double seaLevel = 0.0;
+  var seaLevel = 0.0;
   var lon = 0.0;
   var lat = 0.0;
+  Widget icon = Image(image: AssetImage('icon/11d.png'));
 
   getWeather() async {
-    var url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=${search.text}&appid=87edfe8fa9d769d1fdc98d83269a9b9b&units=metric');
-    var response = await http.post(url);
-    var result = jsonDecode(response.body);
+    if (search.text == "") {
+      setState(() {
+        search.clear();
+        description = 'Error';
+        city = 'City Not Found. Please Try Again!';
+        country = "N/A";
+        temp = 0.0;
+        wind = 0.0;
+        humidity = 0.0;
+        tempMin = 0.0;
+        tempMax = 0.0;
+        seaLevel = 0.0;
+        lon = 0.0;
+        lat = 0.0;
+        icon = Container(
+          width: 90,
+          height: 90,
+          child: Image(
+            image: AssetImage('icon/x.png'),
+          ),
+        );
+      });
+    } else {
+      var url = Uri.parse(
+          'https://api.openweathermap.org/data/2.5/weather?q=${search.text}&appid=87edfe8fa9d769d1fdc98d83269a9b9b&units=metric');
+      var response = await http.post(url);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var result = jsonDecode(response.body);
 
-    city = result['name'];
-    description = result['weather'][0]['main'];
-    country = result['sys']['country'];
-    temp = result['main']['temp'];
-    wind = result['wind']['speed'];
-    humidity = result['main']['humidity'] + 0.0;
-    tempMin = result['main']['temp_min'];
-    tempMax = result['main']['temp_max'];
-    seaLevel = result['main']['sea_level'] + 0.0;
-    lon = result['coord']['lon'];
-    lat = result['coord']['lat'];
-    iconSrc = result['weather'][0]['icon'];
-
-    setState(() {
-      city = result['name'];
-      description = result['weather'][0]['main'];
-      country = result['sys']['country'];
-      temp = result['main']['temp'];
-      wind = result['wind']['speed'];
-      humidity = result['main']['humidity'] + 0.0;
-      tempMin = result['main']['temp_min'];
-      tempMax = result['main']['temp_max'];
-      seaLevel = result['main']['sea_level'] + 0.0;
-      lon = result['coord']['lon'];
-      lat = result['coord']['lat'];
-      iconSrc = result['weather'][0]['icon'];
-    });
+        setState(() {
+          search.clear();
+          city = result['name'];
+          description = result['weather'][0]['main'];
+          country = result['sys']['country'];
+          temp = result['main']['temp'];
+          wind = result['wind']['speed'] + 0.0;
+          humidity = result['main']['humidity'] + 0.0;
+          tempMin = result['main']['temp_min'];
+          tempMax = result['main']['temp_max'];
+          // seaLevel = result['main']['sea_level'];
+          if (result['main']['sea_level'] != null) {
+            seaLevel = result['main']['sea_level'] + 0.0;
+          } else {
+            seaLevel = 0.0;
+          }
+          lon = result['coord']['lon'];
+          lat = result['coord']['lat'];
+          iconSrc = result['weather'][0]['icon'];
+          icon = Image.network(
+              'https://openweathermap.org/img/wn/$iconSrc@2x.png');
+        });
+      } else {
+        setState(() {
+          search.clear();
+          description = 'Error';
+          city = 'City Not Found. Please Try Again!';
+          country = "N/A";
+          temp = 0.0;
+          wind = 0.0;
+          humidity = 0.0;
+          tempMin = 0.0;
+          tempMax = 0.0;
+          seaLevel = 0.0;
+          lon = 0.0;
+          lat = 0.0;
+          icon = Container(
+            width: 90,
+            height: 90,
+            child: Image(
+              image: AssetImage('icon/x.png'),
+            ),
+          );
+        });
+      }
+    }
   }
 
   @override
@@ -65,8 +110,8 @@ class _WeatherState extends State<Weather> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
-        primaryColor: Colors.grey,
-        primarySwatch: Colors.grey,
+        primaryColor: Colors.cyan,
+        primarySwatch: Colors.cyan,
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -123,20 +168,16 @@ class _WeatherState extends State<Weather> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 15),
-                child: OutlinedButton(
-                  child: Text(
-                    "Search",
-                    style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                    ),
+              OutlinedButton(
+                onPressed: getWeather,
+                child: Text('Search'),
+                style: OutlinedButton.styleFrom(
+                  primary: Colors.cyan,
+                  textStyle: TextStyle(
+                    color: Colors.cyan,
                   ),
-                  onPressed: getWeather,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color: Colors.cyan,
-                    ),
+                  side: BorderSide(
+                    color: Colors.cyan,
                   ),
                 ),
               ),
@@ -153,8 +194,11 @@ class _WeatherState extends State<Weather> {
                         children: [
                           Container(
                             margin: EdgeInsets.symmetric(vertical: 5),
-                            child: Image.network(
-                                'https://openweathermap.org/img/wn/$iconSrc@2x.png'),
+                            // child: Image.network(
+                            //   'https://openweathermap.org/img/wn/$iconSrc@2x.png',
+                            // ),
+                            // child: Image(image: AssetImage('icon/11d.png'),),
+                            child: icon,
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 20),
@@ -341,6 +385,7 @@ class _WeatherState extends State<Weather> {
     );
   }
 }
+
 void main() {
   runApp(Weather());
 }
