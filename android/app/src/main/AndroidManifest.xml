@@ -2,7 +2,7 @@
     package="com.kronos.xweather">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="xWeather"
+        android:label="xweather"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
